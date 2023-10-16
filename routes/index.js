@@ -18,8 +18,7 @@ router.get("/auth/google/secrets",
     }
 );
 
-router.route("/")
-    .get(function (req, res) {
+router.get("/",function (req, res) {
         res.render("home");
     });
 
