@@ -105,25 +105,22 @@ router.route("/submit")
     .get((req, res) => {
         res.render("submit");
     })
-router.post("/submit",async (req, res) => {
-        if (req.isAuthenticated()) {
-            try {
-                const user = await User.findById(req.user._id);
-                if (!user) {
-                    return res.redirect("/submit"); 
-                }
-                user.secret = req.body.secret;
-                await user.save();
+router.post("/submit", async (req, res) => {
+    if (req.isAuthenticated()) {
+        const user = await User.findById(req.user._id);
 
-                res.redirect("/secrets");
-            } catch (error) {
-                console.error(error);
-                res.redirect("/submit"); 
-            }
-        } else {
-            res.redirect("/login"); 
+        if (!user) {
+            return res.redirect("/submit");
         }
-    });
+
+        user.secret = req.body.secret;
+        await user.save();
+
+        res.redirect("/secrets");
+    } else {
+        res.redirect("/login");
+    }
+});
 
 
 module.exports = router;
